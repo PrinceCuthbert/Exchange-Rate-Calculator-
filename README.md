@@ -1,0 +1,1 @@
+This exchange rate calculator project allows users to convert one currency to another based on real-time exchange rates. The app fetches live exchange rates from an external API to perform the conversions.
