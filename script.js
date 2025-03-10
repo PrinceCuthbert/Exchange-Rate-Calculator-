@@ -18,22 +18,31 @@ function calculate() {
     .then((res) => res.json())
     .then((data) => {
       const rate = data.conversion_rates[currency_two];
+
       rateEl.innerText = `1 ${currency_one} = ${rate} ${currency_two}`;
-      amountEl_two.value = (amountEl_one.value * rate).toFixed(2);
+
+      // Ensure amountEl_one has a valid number before multiplying
+      let amountOneValue = parseFloat(amountEl_one.value) || 1;
+      amountEl_two.value = (amountOneValue * rate).toFixed(2);
     });
 }
 
 // Event listeners
-
 currencyEl_one.addEventListener("change", calculate);
 amountEl_one.addEventListener("input", calculate);
 currencyEl_two.addEventListener("change", calculate);
 amountEl_two.addEventListener("input", calculate);
 
 swap.addEventListener("click", () => {
-  const temp = currencyEl_one.value;
+  const tempCurrency = currencyEl_one.value;
   currencyEl_one.value = currencyEl_two.value;
-  currencyEl_two.value = temp;
+  currencyEl_two.value = tempCurrency;
+
+  // Swap amount values correctly
+  let tempAmount = parseFloat(amountEl_one.value);
+  amountEl_one.value = amountEl_two.value; // Set new input value
+  amountEl_two.value = tempAmount ? tempAmount.toFixed(2) : "1"; // Default to 1 if empty
+
   calculate();
 });
 
